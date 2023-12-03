@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button, TextField, Callout } from "@radix-ui/themes";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
 import axios from "axios";
 import ErrorMessage from "../../../components/ErrorMessage";
@@ -12,6 +12,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "../../zodSchemas";
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 interface IssueForm {
   title: string;
@@ -50,9 +54,7 @@ const NewIssuePage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        onSubmit={onSubmit}
-      >
+      <form onSubmit={onSubmit}>
         <TextField.Root>
           <TextField.Input placeholder="Issue Title" {...register("title")} />
         </TextField.Root>
