@@ -11,6 +11,12 @@ export async function POST(request: NextRequest) {
   const newIssue = await prisma.issue.create({
     data: { title: body.title, description: body.description },
   });
+  if (!newIssue) {
+    return NextResponse.json(
+      { error: "Something went wrong while creating new issue" },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json(newIssue, { status: 201 });
 }
