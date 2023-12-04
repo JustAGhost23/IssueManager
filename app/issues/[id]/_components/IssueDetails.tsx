@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
-import IssueStatusBadge from "../../../components/IssueStatusBadge";
+import IssueStatusBadge from "../../../../components/IssueStatusBadge";
 import { Issue } from "@prisma/client";
 
 const IssueDetails = ({ issue }: { issue: Issue }) => {
