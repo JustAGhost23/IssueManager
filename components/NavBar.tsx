@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import Skeleton from "../components/Skeleton";
 import { FaBug } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
 import {
@@ -61,7 +62,7 @@ const NavBar = () => {
 const AuthStatus = () => {
   const { status, data: session } = useSession();
 
-  if (status === "loading") return null;
+  if (status === "loading") return <Skeleton width="3rem" />;
 
   if (status === "unauthenticated")
     return (
