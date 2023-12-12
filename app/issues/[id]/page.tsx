@@ -6,6 +6,7 @@ import { Grid, Box, Flex } from "@radix-ui/themes";
 import IssueDetails from "./_components/IssueDetails";
 import EditIssueButton from "./_components/EditIssueButton";
 import DeleteIssueButton from "./_components/DeleteIssueButton";
+import AssigneeSelect from "./_components/AssigneeSelect";
 
 interface Props {
   params: { id: string };
@@ -28,6 +29,7 @@ const IssueDetailPage = async ({ params }: Props) => {
       {session && (
         <Box>
           <Flex direction="column" gap="4">
+            <AssigneeSelect />
             <EditIssueButton issueId={issue.id} />
             <DeleteIssueButton issueId={issue.id} />
           </Flex>
