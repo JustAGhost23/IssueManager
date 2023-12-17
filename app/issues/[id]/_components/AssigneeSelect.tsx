@@ -10,6 +10,16 @@ import toast, { Toaster } from "react-hot-toast";
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const { data: users, error, isLoading } = useUsers();
 
+  const assignIssue = (userId: string) => {
+    axios
+      .patch("/api/issues/" + issue.id, {
+        assignedToUserId: userId || null,
+      })
+      .catch(() => {
+        toast.error("Changes could not be saved.");
+      });
+  };
+
   if (isLoading) return <Skeleton />;
 
   if (error) return null;
@@ -18,11 +28,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || ""}
-        onValueChange={(userId) => {
-          axios.patch("/api/issues/" + issue.id, {
-            assignedToUserId: userId || null,
-          });
-        }}
+        onValueChange={assignIssue}
       >
         <Select.Trigger placeholder="Assign..." />
         <Select.Content>
