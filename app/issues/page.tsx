@@ -1,15 +1,34 @@
 import { prisma } from "../config/db";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
+import { FaArrowUp } from "react-icons/fa";
 import Link from "../../components/Link";
 import IssueStatusBadge from "../../components/IssueStatusBadge";
 import CreateNewIssueButton from "./_components/CreateNewIssueButton";
 
 interface Props {
-  searchParams: { status: Status };
+  searchParams: { status: Status; orderBy: keyof Issue };
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
+  const columns: {
+    label: string;
+    value: keyof Issue;
+    className?: string;
+  }[] = [
+    { label: "Issue", value: "title" },
+    {
+      label: "Status",
+      value: "status",
+      className: "hidden md:table-cell",
+    },
+    {
+      label: "Created",
+      value: "createdAt",
+      className: "hidden md:table-cell",
+    },
+  ];
+  
   const statuses = Object.values(Status);
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
