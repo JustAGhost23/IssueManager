@@ -2,6 +2,7 @@ import { prisma } from "../config/db";
 import { Issue, Status } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
 import { FaArrowUp } from "react-icons/fa";
+import { Metadata } from "next";
 import NextLink from "next/link";
 import Link from "../../components/Link";
 import IssueStatusBadge from "../../components/IssueStatusBadge";
@@ -102,6 +103,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
       />
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Issue Manager - Issue List",
+  description: "View all project issues",
 };
 
 export const dynamic = "force-dynamic";
