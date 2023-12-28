@@ -2,13 +2,16 @@
 
 import { Issue, User } from "@prisma/client";
 import Skeleton from "../../../../components/Skeleton";
-import { Select } from "@radix-ui/themes";
+import { Select, Button } from "@radix-ui/themes";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
+  const router = useRouter();
   const { data: users, error, isLoading } = useUsers();
+  let currentAssignee = issue.assignedToUserId || "Unassigned";
 
   const assignIssue = (userId: string) => {
     axios
@@ -18,6 +21,10 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
       .catch(() => {
         toast.error("Changes could not be saved.");
       });
+    router.refresh();
+  };
+  const changeAssignee = (userId: string) => {
+    currentAssignee = userId;
   };
 
   if (isLoading) return <Skeleton />;
@@ -28,7 +35,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || ""}
-        onValueChange={assignIssue}
+        onValueChange={changeAssignee}
       >
         <Select.Trigger placeholder="Assign..." />
         <Select.Content>
@@ -44,6 +51,9 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         </Select.Content>
       </Select.Root>
       <Toaster />
+      <Button onClick={() => assignIssue(currentAssignee)}>
+        Update Assignee
+      </Button>
     </>
   );
 };
