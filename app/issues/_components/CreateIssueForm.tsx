@@ -3,6 +3,7 @@
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +23,8 @@ type CreateIssueFormData = z.infer<typeof createIssueSchema>;
 
 const CreateIssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
+  const { status, data: session } = useSession();
+
   const {
     register,
     control,
@@ -41,7 +44,12 @@ const CreateIssueForm = ({ issue }: { issue?: Issue }) => {
       router.refresh();
     } catch (error) {
       setSubmitting(false);
-      setError("An unexpected error occurred.");
+      if (status === "unauthenticated") {
+        setError("You are not logged in.")
+      }
+      else {
+        setError("An unexpected error occurred.");
+      }
     }
   });
 
