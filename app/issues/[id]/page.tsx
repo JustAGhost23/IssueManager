@@ -26,15 +26,19 @@ const IssueDetailPage = async ({ params }: Props) => {
   if (!issue) notFound();
 
   return (
-    <Grid columns={{ initial: "1", md: "5" }} gap="4">
+    <Grid columns={{ initial: "1", md: "6" }} gap="4">
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
       </Box>
       {session && (
         <Box>
           <Flex direction="column" gap="4">
-            <AssigneeSelect issue={issue} />
-            <StatusSelect issue={issue}/>
+            <Flex direction="row" gap="4">
+              <AssigneeSelect issue={issue} />
+            </Flex>
+            <Flex direction="row" gap="4">
+              <StatusSelect issue={issue} />
+            </Flex>
             <EditIssueButton issueId={issue.id} />
             <DeleteIssueButton issueId={issue.id} />
           </Flex>
