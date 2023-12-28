@@ -19,7 +19,7 @@ export async function POST(
 
   const { assignedToUserId, title, description } = body;
 
-  if (assignedToUserId) {
+  if (assignedToUserId !== "Unassigned") {
     const user = await prisma.user.findUnique({
       where: { id: assignedToUserId },
     });
@@ -35,12 +35,10 @@ export async function POST(
 
   let updatedIssue: Issue | null;
 
-  if (!body.description) {
+  if (body.assignedToUserId !== "Unassigned") {
     updatedIssue = await prisma.issue.update({
       where: { id: issue.id },
       data: {
-        title: body.title,
-        description: body.description,
         assignedToUserId: body.assignedToUserId,
       },
     });
@@ -48,10 +46,38 @@ export async function POST(
     updatedIssue = await prisma.issue.update({
       where: { id: issue.id },
       data: {
-        title: body.title,
-        description: body.description,
+        assignedToUserId: null,
       },
     });
+  }
+
+  if (!body.description) {
+    if (!body.title) {
+    } else {
+      updatedIssue = await prisma.issue.update({
+        where: { id: issue.id },
+        data: {
+          title: body.title,
+        },
+      });
+    }
+  } else {
+    if (!body.title) {
+      updatedIssue = await prisma.issue.update({
+        where: { id: issue.id },
+        data: {
+          description: body.description,
+        },
+      });
+    } else {
+      updatedIssue = await prisma.issue.update({
+        where: { id: issue.id },
+        data: {
+          title: body.title,
+          description: body.description,
+        },
+      });
+    }
   }
   if (!updatedIssue) {
     return NextResponse.json(
