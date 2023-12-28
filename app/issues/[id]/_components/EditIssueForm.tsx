@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Button, Callout, Flex, TextField } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -48,7 +48,7 @@ const EditIssueForm = ({ issue }: { issue: Issue }) => {
   return (
     <div className="max-w-xl">
       {error && (
-        <Callout.Root color="red" className="mb-5">
+        <Callout.Root color="red" className="mb-4">
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}

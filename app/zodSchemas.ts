@@ -1,3 +1,4 @@
+import { Status } from "@prisma/client";
 import { z } from "zod";
 
 export const createIssueSchema = z.object({
@@ -35,4 +36,5 @@ export const updateIssueSchema = z.object({
     .min(1, { message: "Must be atleast 1 character long" })
     .max(255, { message: "Must be atmost 255 characters long" })
     .optional(),
+  status: z.nativeEnum(Status).optional(),
 });

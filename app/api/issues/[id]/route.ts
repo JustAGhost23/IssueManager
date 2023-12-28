@@ -17,9 +17,9 @@ export async function POST(
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
 
-  const { assignedToUserId, title, description } = body;
+  const { assignedToUserId, title, description, status } = body;
 
-  if (assignedToUserId !== "Unassigned") {
+  if (assignedToUserId && assignedToUserId !== "Unassigned") {
     const user = await prisma.user.findUnique({
       where: { id: assignedToUserId },
     });
@@ -34,6 +34,15 @@ export async function POST(
     return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
 
   let updatedIssue: Issue | null;
+
+  if (body.status) {
+    updatedIssue = await prisma.issue.update({
+      where: { id: issue.id },
+      data: {
+        status: body.status,
+      },
+    });
+  }
 
   if (body.assignedToUserId !== "Unassigned") {
     updatedIssue = await prisma.issue.update({
