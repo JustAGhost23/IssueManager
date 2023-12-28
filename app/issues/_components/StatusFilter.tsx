@@ -18,7 +18,7 @@ const StatusFilter = () => {
 
   return (
     <Select.Root
-      defaultValue={searchParams.get("status") || ""}
+      defaultValue={searchParams.get("status") || "ALL"}
       onValueChange={(status) => {
         const params = new URLSearchParams();
         if (status) params.append("status", status);
@@ -32,7 +32,7 @@ const StatusFilter = () => {
       <Select.Trigger placeholder="Filter by status..." />
       <Select.Content>
         {statuses.map((status) => (
-          <Select.Item key={status.value} value={status.value || ""}>
+          <Select.Item key={status.value} value={status.value || "ALL"}>
             {status.label}
           </Select.Item>
         ))}
