@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import Skeleton from "../components/Skeleton";
 import { FaBug } from "react-icons/fa6";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { useSession } from "next-auth/react";
+import { useTheme } from "next-themes";
 import {
   Avatar,
   Box,
@@ -13,10 +15,12 @@ import {
   DropdownMenu,
   Flex,
   Text,
+  IconButton,
 } from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
+  const { theme, setTheme } = useTheme();
   const { status, data: session } = useSession();
 
   return (
@@ -52,7 +56,23 @@ const NavBar = () => {
               </li>
             </ul>
           </Flex>
-          <AuthStatus />
+          <Flex align="center" gap="4">
+            <IconButton
+              variant="ghost"
+              size="3"
+              radius="full"
+              onClick={() =>
+                theme === "light" ? setTheme("dark") : setTheme("light")
+              }
+            >
+              {theme === "light" ? (
+                <MdOutlineLightMode />
+              ) : (
+                <MdOutlineDarkMode />
+              )}
+            </IconButton>
+            <AuthStatus />
+          </Flex>
         </Flex>
       </Container>
     </nav>
