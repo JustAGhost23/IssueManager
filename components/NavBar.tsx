@@ -32,28 +32,57 @@ const NavBar = () => {
               <FaBug />
             </Link>
             <ul className="flex space-x-8">
-              <li>
-                <Link
-                  className={`${
-                    currentPath === "/" ? "text-zinc-900" : "text-zinc-500"
-                  } hover:text-zinc-800 transition-colors`}
-                  href="/"
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`${
-                    currentPath === "/issues"
-                      ? "text-zinc-900"
-                      : "text-zinc-500"
-                  } hover:text-zinc-800 transition-colors`}
-                  href="/issues"
-                >
-                  Issues
-                </Link>
-              </li>
+              {theme === "light" ? (
+                <>
+                  <li>
+                    <Link
+                      className={`${
+                        currentPath === "/" ? "text-zinc-900" : "text-zinc-500"
+                      } hover:text-zinc-800 transition-colors`}
+                      href="/"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className={`${
+                        currentPath === "/issues"
+                          ? "text-zinc-900"
+                          : "text-zinc-500"
+                      } hover:text-zinc-800 transition-colors`}
+                      href="/issues"
+                    >
+                      Issues
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link
+                      className={`${
+                        currentPath === "/" ? "text-zinc-100" : "text-zinc-400"
+                      } hover:text-zinc-300 transition-colors`}
+                      href="/"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className={`${
+                        currentPath === "/issues"
+                          ? "text-zinc-100"
+                          : "text-zinc-400"
+                      } hover:text-zinc-300 transition-colors`}
+                      href="/issues"
+                    >
+                      Issues
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </Flex>
           <Flex align="center" gap="4">
